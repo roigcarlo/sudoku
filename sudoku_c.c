@@ -68,16 +68,14 @@ void InitializeGraph(Graph * G)
 
   printf("Allocating memory...\n");
 
-  for(i = 0; i < LENGHT; i++)
-  {
+  for(i = 0; i < LENGHT; i++) {
     G->row_block[i] = -1;
     G->col_block[i] = -1;
     G->chu_block[i] = -1;
     G->max_block[i] =  9;
   }
 
-  for(i = 0; i < CELLS; i++)
-  {
+  for(i = 0; i < CELLS; i++) {
     G->cell[i] = (Node *)malloc(sizeof(Node));
     G->cell[i]->color = 0;
     G->cell[i]->index = i;
@@ -92,15 +90,13 @@ void ReadGraph(Graph * G)
   int index;
   int i;
 
-  for(i = 0; i < CELLS; i++)
-  {
+  for(i = 0; i < CELLS; i++) {
     scanf("%u", (unsigned int*)&r_color);
 
     G->cell[i]->color = r_color;
     index = G->cell[i]->index;
 
-    if (G->cell[i]->color != 0)
-    {
+    if (G->cell[i]->color != 0) {
       unsigned char * ROW = &DAT[0][index];
       unsigned char * COL = ROW + OFFSET;
       unsigned char * CHU = COL + OFFSET;
@@ -111,9 +107,7 @@ void ReadGraph(Graph * G)
 
       G->max_block[r_color-1]--;
       G->depht++;
-    }
-    else
-    {
+    } else {
       G->elegible_nodes[G->elegible_size++] = G->cell[i];
     }
   }
@@ -125,8 +119,7 @@ void PrintGraph(Graph * G)
 
   int i;
 
-  for(i = 0; i < CELLS; i++)
-  {
+  for(i = 0; i < CELLS; i++) {
     if ((i % 9)==0 && i!=0) printf("\n");
     printf("%d ",G->cell[i]->color);
   }
@@ -140,8 +133,7 @@ void Solve(Graph * sudo)
 
   sudo->recursion_level++;
 
-  if(sudo->elegible_itr == sudo->elegible_size || sudo->depht == 81)
-  {
+  if(sudo->elegible_itr == sudo->elegible_size || sudo->depht == 81) {
     sudo->solutions++;
     return;
   }
@@ -152,8 +144,7 @@ void Solve(Graph * sudo)
   unsigned char * COL;
   unsigned char * CHU;
 
-  for(j = 0; j < 9; j++)
-  {
+  for(j = 0; j < 9; j++) {
     ROW = &DAT[0][n->index];
     COL = ROW + OFFSET;
     CHU = COL + OFFSET;
