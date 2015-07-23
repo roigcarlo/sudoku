@@ -145,22 +145,27 @@ void Solve(Graph * sudo)
   unsigned char * CHU;
 
   for(j = 0; j < 9; j++) {
+
     ROW = &DAT[0][n->index];
     COL = ROW + OFFSET;
     CHU = COL + OFFSET;
 
+    int & solve_row = sudo->row_block[*ROW];
+    int & solve_col = sudo->col_block[*COL];
+    int & solve_chu = sudo->chu_block[*CHU];
+
     int & MAB = sudo->max_block[j];
 
     if( MAB &&
-        CHEK_COLOR(sudo->row_block[*ROW],j) &&
-        CHEK_COLOR(sudo->col_block[*COL],j) &&
-        CHEK_COLOR(sudo->chu_block[*CHU],j) ) {
+        CHEK_COLOR(solve_row,j) &&
+        CHEK_COLOR(solve_col,j) &&
+        CHEK_COLOR(solve_chu,j) ) {
 
       MAB--;
 
-      BLOC_COLOR(sudo->row_block[*ROW],j);
-      BLOC_COLOR(sudo->col_block[*COL],j);
-      BLOC_COLOR(sudo->chu_block[*CHU],j);
+      BLOC_COLOR(solve_row,j);
+      BLOC_COLOR(solve_col,j);
+      BLOC_COLOR(solve_chu,j);
 
       n->color = j+1;
       sudo->depht++;
@@ -174,9 +179,9 @@ void Solve(Graph * sudo)
 
       MAB++;
 
-      FREE_COLOR(sudo->row_block[*ROW],j);
-      FREE_COLOR(sudo->col_block[*COL],j);
-      FREE_COLOR(sudo->chu_block[*CHU],j);
+      FREE_COLOR(solve_row,j);
+      FREE_COLOR(solve_col,j);
+      FREE_COLOR(solve_chu,j);
     }
   }
 }
