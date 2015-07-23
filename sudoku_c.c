@@ -21,6 +21,8 @@
 
 #define OFFSET CELLS
 
+#define FETCHTIME(A,B) ((B.tv_sec  - A.tv_sec) * 1000000u + B.tv_usec - A.tv_usec) / 1.e6;
+
 //Mapped access
 unsigned char DAT[3][CELLS] = {
   {0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8},
@@ -140,22 +142,17 @@ void Solve(Graph * sudo)
 
   Node * n = sudo->elegible_nodes[sudo->elegible_itr];
 
-  unsigned char * ROW = &DAT[0][n->index];
-  unsigned char * COL = ROW + OFFSET;
-  unsigned char * CHU = COL + OFFSET;
+  int & solve_row = sudo->row_block[DAT[0][n->index]];
+  int & solve_col = sudo->col_block[DAT[1][n->index]];
+  int & solve_chu = sudo->chu_block[DAT[2][n->index]];
+
+  int solve_mrg = (solve_row & solve_col & solve_chu);
 
   for(j = 0; j < 9; j++) {
 
-    int & solve_row = sudo->row_block[*ROW];
-    int & solve_col = sudo->col_block[*COL];
-    int & solve_chu = sudo->chu_block[*CHU];
-
     int & MAB = sudo->max_block[j];
 
-    if( MAB &&
-        CHEK_COLOR(solve_row,j) &&
-        CHEK_COLOR(solve_col,j) &&
-        CHEK_COLOR(solve_chu,j) ) {
+    if( MAB && CHEK_COLOR(solve_mrg,j)) {
 
       MAB--;
 
@@ -184,14 +181,26 @@ void Solve(Graph * sudo)
 
 int main( )
 {
+  struct timeval str, end;
+  float dtn;
+
   printf("Initializing...\n");
 
   Graph * sudoku = (Graph*)malloc(sizeof(Graph));
   
   InitializeGraph(sudoku);
   ReadGraph(sudoku);
+
+  gettimeofday(&str, NULL);
   Solve(sudoku);
+  gettimeofday(&end, NULL);
+
+  dtn = FETCHTIME(str,end);
 
   printf("RC: %d\n",sudoku->recursion_level);
   printf("SO: %d\n",sudoku->solutions);
+  printf("\n");
+  printf("Total  Duration: %.10f\n",dtn);
+  printf("PerRec Duration: %.10f\n",dtn/sudoku->recursion_level);
+  printf("PerSol Duration: %.10f\n",dtn/sudoku->solutions);
 }
