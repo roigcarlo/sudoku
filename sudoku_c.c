@@ -158,14 +158,14 @@ void Solve(Graph * sudo)
     COL = ROW + OFFSET;
     CHU = COL + OFFSET;
 
-    int * MAB = &sudo->max_block[j];
+    int & MAB = sudo->max_block[j];
 
-    if( (*MAB) &&
+    if( MAB &&
         CHEK_COLOR(sudo->row_block[*ROW],j) &&
         CHEK_COLOR(sudo->col_block[*COL],j) &&
         CHEK_COLOR(sudo->chu_block[*CHU],j) ) {
 
-      (*MAB)--;
+      MAB--;
 
       BLOC_COLOR(sudo->row_block[*ROW],j);
       BLOC_COLOR(sudo->col_block[*COL],j);
@@ -181,7 +181,7 @@ void Solve(Graph * sudo)
       sudo->depht--;
       n->color = 0;
 
-      (*MAB)++;
+      MAB++;
 
       FREE_COLOR(sudo->row_block[*ROW],j);
       FREE_COLOR(sudo->col_block[*COL],j);
