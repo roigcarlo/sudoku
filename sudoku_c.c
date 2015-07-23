@@ -140,15 +140,11 @@ void Solve(Graph * sudo)
 
   Node * n = sudo->elegible_nodes[sudo->elegible_itr];
 
-  unsigned char * ROW;
-  unsigned char * COL;
-  unsigned char * CHU;
+  unsigned char * ROW = &DAT[0][n->index];
+  unsigned char * COL = ROW + OFFSET;
+  unsigned char * CHU = COL + OFFSET;
 
   for(j = 0; j < 9; j++) {
-
-    ROW = &DAT[0][n->index];
-    COL = ROW + OFFSET;
-    CHU = COL + OFFSET;
 
     int & solve_row = sudo->row_block[*ROW];
     int & solve_col = sudo->col_block[*COL];
