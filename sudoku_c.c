@@ -170,11 +170,11 @@ void Solve(Graph * sudo)
       sudo->depht--;
       n->color = 0;
 
-      MAB++;
-
       FREE_COLOR(solve_row,j);
       FREE_COLOR(solve_col,j);
       FREE_COLOR(solve_chu,j);
+
+      MAB++;
     }
   }
 }
