@@ -60,11 +60,11 @@ void InitializeGraph(Graph * G)
 {
   int i;
 
-  G->solutions            = 0;
-  G->recursion_level      = 0;
-  G->depht                = 0;
-  G->elegible_size        = 0;
-  G->elegible_itr         = 0;
+  G->solutions        = 0;
+  G->recursion_level  = 0;
+  G->depht            = 0;
+  G->elegible_size    = 0;
+  G->elegible_itr     = 0;
 
   printf("Allocating memory...\n");
 
